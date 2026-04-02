@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Diamond Top-Up</title>
+    <script>
+        // Improved security features
+        const secureFormSubmit = async (formData) => {
+            try {
+                const response = await fetch('https://api.example.com/topup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(formData)
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                // Handle successful response
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <h1>FF Diamond Top-Up</h1>
+    </header>
+    <main>
+        <form id="topup-form" onsubmit="event.preventDefault();
+            const formData = new FormData(this);
+            secureFormSubmit(Object.fromEntries(formData));"> 
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" required>
+            <button type="submit">Top Up</button>
+        </form>
+    </main>
+</body>
+</html>
